@@ -1,0 +1,709 @@
+openapi: 3.0.1
+info:
+  title: APP - BOOKS
+  description: APP - BOOKS
+  version: '1.0'
+servers:
+  - url: /
+security:
+  - bearerAuth: []
+paths:
+  /api/books:
+    get:
+      tags:
+        - book-controller
+      operationId: search
+      parameters:
+        - name: bookSearchDTO
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/BookSearchDTO'
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/Pageable'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiDataResponsePageBook'
+    put:
+      tags:
+        - book-controller
+      operationId: create
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiDataResponseBook'
+  /api/books/{id}:
+    delete:
+      tags:
+        - book-controller
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+    patch:
+      tags:
+        - book-controller
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookUpdateDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiDataResponseBook'
+  /api/attachement/download/{id}:
+    get:
+      tags:
+        - attachement-controller
+      operationId: download
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+components:
+  schemas:
+    BookDTO:
+      required:
+        - contentFile
+        - coverFile
+      type: object
+      properties:
+        author:
+          type: string
+        country:
+          type: string
+        language:
+          type: string
+        link:
+          type: string
+        pages:
+          type: integer
+          format: int64
+        title:
+          type: string
+        year:
+          type: integer
+          format: int64
+        coverFile:
+          type: string
+          format: binary
+        contentFile:
+          type: string
+          format: binary
+    ApiDataResponseBook:
+      type: object
+      properties:
+        status:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        date:
+          type: string
+        time:
+          type: string
+        zone:
+          type: string
+        data:
+          $ref: '#/components/schemas/Book'
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+        author:
+          type: string
+        country:
+          type: string
+        language:
+          type: string
+        pages:
+          type: integer
+          format: int64
+        title:
+          type: string
+        year:
+          type: integer
+          format: int64
+        cover:
+          $ref: '#/components/schemas/Cover'
+        content:
+          $ref: '#/components/schemas/Content'
+    Content:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+        ext:
+          type: string
+          description: Extention of the file
+        extension:
+          type: string
+          description: Extention type of the file
+          enum:
+            - DOC
+            - DOCX
+            - DOT
+            - DOTX
+            - DOCM
+            - DOTM
+            - ODT
+            - OTT
+            - RTF
+            - TXT
+            - PDF
+            - XPS
+            - XML
+            - HTML
+            - HTM
+            - CSV
+            - XLS
+            - XLSX
+            - XLSM
+            - XLSB
+            - XLT
+            - XLTX
+            - XLTM
+            - ODS
+            - OTS
+            - PPT
+            - PPTX
+            - PPTM
+            - POT
+            - POTX
+            - POTM
+            - ODP
+            - OTP
+            - PPS
+            - PPSX
+            - PPSM
+            - ODG
+            - OTG
+            - VSD
+            - VSDX
+            - PUB
+            - PAGES
+            - KEY
+            - NUMBERS
+            - AI
+            - BMP
+            - CDR
+            - CGM
+            - DJVU
+            - EMF
+            - EPS
+            - EXIF
+            - GIF
+            - HEIC
+            - ICO
+            - JP2
+            - JPEG
+            - JPG
+            - PBM
+            - PCX
+            - PGM
+            - PNG
+            - PNM
+            - PPM
+            - PSD
+            - RAS
+            - RAW
+            - SVG
+            - TIF
+            - TIFF
+            - WBMP
+            - WEBP
+            - WMF
+            - XCF
+            - XPM
+            - AAC
+            - AAX
+            - ACT
+            - AIFF
+            - AMR
+            - APE
+            - AU
+            - AWB
+            - DCT
+            - DSS
+            - DVF
+            - FLAC
+            - GSM
+            - IKLAX
+            - IVS
+            - M4A
+            - M4B
+            - MMF
+            - MP3
+            - MPC
+            - MSV
+            - NMF
+            - OGG
+            - OGA
+            - OPUS
+            - RA
+            - SLN
+            - TTA
+            - VOC
+            - VOX
+            - WAV
+            - WMA
+            - WV
+            - 3G2
+            - 3GP
+            - AMV
+            - ASF
+            - AVI
+            - DRC
+            - FLV
+            - GIFV
+            - H264
+            - M4P
+            - M4V
+            - MKV
+            - MNG
+            - MOV
+            - MP2
+            - MP4
+            - MPE
+            - MPEG
+            - MPG
+            - MPV
+            - MXF
+            - NSV
+            - OGV
+            - QT
+            - RM
+            - RMVB
+            - ROQ
+            - SRT
+            - SVI
+            - VOB
+            - WEBM
+            - WMV
+            - YUV
+            - ZIP
+            - RAR
+            - TAR
+            - GZ
+            - 7Z
+            - EXE
+            - APP
+            - MSI
+            - APK
+            - DEB
+            - NAN
+        originalFileName:
+          type: string
+          description: Original name of the file
+        path:
+          type: string
+          description: Path where the file is stored
+        fileSize:
+          type: integer
+          description: Size of the file
+          format: int64
+        fileType:
+          type: string
+          description: Type of the file
+          enum:
+            - Document
+            - Image
+            - File
+            - Executable
+            - Audio
+            - Video
+    Cover:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+        ext:
+          type: string
+          description: Extention of the file
+        extension:
+          type: string
+          description: Extention type of the file
+          enum:
+            - DOC
+            - DOCX
+            - DOT
+            - DOTX
+            - DOCM
+            - DOTM
+            - ODT
+            - OTT
+            - RTF
+            - TXT
+            - PDF
+            - XPS
+            - XML
+            - HTML
+            - HTM
+            - CSV
+            - XLS
+            - XLSX
+            - XLSM
+            - XLSB
+            - XLT
+            - XLTX
+            - XLTM
+            - ODS
+            - OTS
+            - PPT
+            - PPTX
+            - PPTM
+            - POT
+            - POTX
+            - POTM
+            - ODP
+            - OTP
+            - PPS
+            - PPSX
+            - PPSM
+            - ODG
+            - OTG
+            - VSD
+            - VSDX
+            - PUB
+            - PAGES
+            - KEY
+            - NUMBERS
+            - AI
+            - BMP
+            - CDR
+            - CGM
+            - DJVU
+            - EMF
+            - EPS
+            - EXIF
+            - GIF
+            - HEIC
+            - ICO
+            - JP2
+            - JPEG
+            - JPG
+            - PBM
+            - PCX
+            - PGM
+            - PNG
+            - PNM
+            - PPM
+            - PSD
+            - RAS
+            - RAW
+            - SVG
+            - TIF
+            - TIFF
+            - WBMP
+            - WEBP
+            - WMF
+            - XCF
+            - XPM
+            - AAC
+            - AAX
+            - ACT
+            - AIFF
+            - AMR
+            - APE
+            - AU
+            - AWB
+            - DCT
+            - DSS
+            - DVF
+            - FLAC
+            - GSM
+            - IKLAX
+            - IVS
+            - M4A
+            - M4B
+            - MMF
+            - MP3
+            - MPC
+            - MSV
+            - NMF
+            - OGG
+            - OGA
+            - OPUS
+            - RA
+            - SLN
+            - TTA
+            - VOC
+            - VOX
+            - WAV
+            - WMA
+            - WV
+            - 3G2
+            - 3GP
+            - AMV
+            - ASF
+            - AVI
+            - DRC
+            - FLV
+            - GIFV
+            - H264
+            - M4P
+            - M4V
+            - MKV
+            - MNG
+            - MOV
+            - MP2
+            - MP4
+            - MPE
+            - MPEG
+            - MPG
+            - MPV
+            - MXF
+            - NSV
+            - OGV
+            - QT
+            - RM
+            - RMVB
+            - ROQ
+            - SRT
+            - SVI
+            - VOB
+            - WEBM
+            - WMV
+            - YUV
+            - ZIP
+            - RAR
+            - TAR
+            - GZ
+            - 7Z
+            - EXE
+            - APP
+            - MSI
+            - APK
+            - DEB
+            - NAN
+        originalFileName:
+          type: string
+          description: Original name of the file
+        path:
+          type: string
+          description: Path where the file is stored
+        fileSize:
+          type: integer
+          description: Size of the file
+          format: int64
+        fileType:
+          type: string
+          description: Type of the file
+          enum:
+            - Document
+            - Image
+            - File
+            - Executable
+            - Audio
+            - Video
+    BookUpdateDTO:
+      type: object
+      properties:
+        author:
+          type: string
+        country:
+          type: string
+        language:
+          type: string
+        link:
+          type: string
+        pages:
+          type: integer
+          format: int64
+        title:
+          type: string
+        year:
+          type: integer
+          format: int64
+    BookSearchDTO:
+      type: object
+      properties:
+        author:
+          type: string
+        country:
+          type: string
+        language:
+          type: string
+        link:
+          type: string
+        pages:
+          type: integer
+          format: int64
+        title:
+          type: string
+        year:
+          type: integer
+          format: int64
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    ApiDataResponsePageBook:
+      type: object
+      properties:
+        status:
+          type: string
+        httpStatus:
+          type: integer
+          format: int32
+        date:
+          type: string
+        time:
+          type: string
+        zone:
+          type: string
+        data:
+          $ref: '#/components/schemas/PageBook'
+    PageBook:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    StreamingResponseBody:
+      type: object
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: bearer

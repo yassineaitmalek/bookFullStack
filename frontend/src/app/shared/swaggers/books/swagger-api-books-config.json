@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.10.0",
+    "generators": {
+      "booksApi": {
+        "generatorName": "typescript-angular",
+        "inputSpec": "src/app/shared/swaggers/swagger-api-books.yaml",
+        "output": "src/app/shared/api/books",
+        "additionalProperties": {
+          "ngVersion": "12.0.0",
+          "supportsES6": true,
+          "modelSuffix": "",
+          "serviceSuffix": "Service",
+          "fileNaming": "kebab-case",
+          "apiModulePrefix": "BooksApi",
+          "stringEnums": true,
+          "withInterfaces": true,
+          "providedIn": "root"
+        }
+      }
+    }
+  }
+}

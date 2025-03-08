@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { KeycloakService } from 'keycloak-angular';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PagesModule } from './pages/pages.module';
+
 import { ApiModule, Configuration } from './shared/api/books';
+import { FooterComponent } from './pages/footer/footer.component';
 
 @NgModule({
   declarations: [],
@@ -14,11 +15,12 @@ import { ApiModule, Configuration } from './shared/api/books';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, // Add this line
-    ApiModule.forRoot(
-      () => new Configuration({ basePath: 'http://localhost:8080' })
-    ),
+    ApiModule.forRoot(() => new Configuration({ basePath: 'http://localhost:8080/book-service' })),
+
+    // ApiModule.forRoot({ rootUrl: '/abb-api-agios' }),
     CommonModule,
+
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

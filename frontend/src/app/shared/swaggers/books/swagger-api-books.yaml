@@ -2,55 +2,57 @@ openapi: 3.0.1
 info:
   title: APP - BOOKS
   description: APP - BOOKS
-  version: '1.0'
+  version: "1.0"
 servers:
-  - url: /
+  - url: /book-service
+
 security:
   - bearerAuth: []
+
 paths:
   /api/books:
     get:
       tags:
-        - book-controller
+        - book
       operationId: search
       parameters:
         - name: bookSearchDTO
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/BookSearchDTO'
+            $ref: "#/components/schemas/BookSearchDTO"
         - name: pageable
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/Pageable'
+            $ref: "#/components/schemas/Pageable"
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/ApiDataResponsePageBook'
+                $ref: "#/components/schemas/ApiDataResponsePageBook"
     put:
       tags:
-        - book-controller
+        - book
       operationId: create
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/BookDTO'
+              $ref: "#/components/schemas/BookDTO"
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/ApiDataResponseBook'
+                $ref: "#/components/schemas/ApiDataResponseBook"
   /api/books/{id}:
     delete:
       tags:
-        - book-controller
+        - book
       operationId: delete
       parameters:
         - name: id
@@ -60,11 +62,11 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: OK
     patch:
       tags:
-        - book-controller
+        - book
       operationId: update
       parameters:
         - name: id
@@ -77,19 +79,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BookUpdateDTO'
+              $ref: "#/components/schemas/BookUpdateDTO"
         required: true
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/ApiDataResponseBook'
+                $ref: "#/components/schemas/ApiDataResponseBook"
   /api/attachement/download/{id}:
     get:
       tags:
-        - attachement-controller
+        - attachement
       operationId: download
       parameters:
         - name: id
@@ -99,12 +101,12 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: OK
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/StreamingResponseBody'
+                $ref: "#/components/schemas/StreamingResponseBody"
 components:
   schemas:
     BookDTO:
@@ -150,7 +152,7 @@ components:
         zone:
           type: string
         data:
-          $ref: '#/components/schemas/Book'
+          $ref: "#/components/schemas/Book"
     Book:
       type: object
       properties:
@@ -181,9 +183,9 @@ components:
           type: integer
           format: int64
         cover:
-          $ref: '#/components/schemas/Cover'
+          $ref: "#/components/schemas/Cover"
         content:
-          $ref: '#/components/schemas/Content'
+          $ref: "#/components/schemas/Content"
     Content:
       type: object
       properties:
@@ -640,7 +642,7 @@ components:
         zone:
           type: string
         data:
-          $ref: '#/components/schemas/PageBook'
+          $ref: "#/components/schemas/PageBook"
     PageBook:
       type: object
       properties:
@@ -656,12 +658,12 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/Book'
+            $ref: "#/components/schemas/Book"
         number:
           type: integer
           format: int32
         sort:
-          $ref: '#/components/schemas/SortObject'
+          $ref: "#/components/schemas/SortObject"
         first:
           type: boolean
         last:
@@ -670,7 +672,7 @@ components:
           type: integer
           format: int32
         pageable:
-          $ref: '#/components/schemas/PageableObject'
+          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     PageableObject:
@@ -680,7 +682,7 @@ components:
           type: integer
           format: int64
         sort:
-          $ref: '#/components/schemas/SortObject'
+          $ref: "#/components/schemas/SortObject"
         pageNumber:
           type: integer
           format: int32

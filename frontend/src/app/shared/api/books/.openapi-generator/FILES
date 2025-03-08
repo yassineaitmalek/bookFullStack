@@ -1,10 +1,9 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
-api/attachementController.service.ts
-api/bookController.service.ts
+api/attachement.service.ts
+api/book.service.ts
 configuration.ts
 encoder.ts
 git_push.sh

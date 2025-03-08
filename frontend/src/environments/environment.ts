@@ -1,6 +1,5 @@
 import { KeycloakOptions } from 'keycloak-angular';
 
-// Add here your keycloak setup infos
 const keycloakConfig: KeycloakOptions = {
   config: {
     url: 'http://localhost:9998/auth',

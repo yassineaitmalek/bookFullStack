@@ -1,41 +1,36 @@
-<li class="flex border rounded-xl h-60">
-    <!-- <img [src]="book.image" [alt]="book.name" width="100"
+<div class="flex border rounded-xl h-60">
+  <!-- <img [src]="book.image" [alt]="book.name" width="100"
         class="m-auto rounded-sm" />
     <div class="m-auto">
         <p class="text-lg">{{ book.name | titlecase }} by {{ book.author |
             titlecase}}</p>
         <p class="my-4">{{ book.amount | currency:'INR' }}</p>
         <button class="bg-yellow-400 rounded p-3" *ngIf="!isInCart"
-            (click)="addToCart()">Add to Cart</button>
+            (click)="addToCart()">Add to Cart</button> 
         <button class="bg-yellow-400 rounded p-3" *ngIf="isInCart"
             (click)="removeFromCart()">Remove from
             Cart</button>
     </div> -->
-    <div class="card">
-  <img src="..." class="card-img-top" alt="...">
 
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-
-<div class="card" aria-hidden="true">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title placeholder-glow">
-      <span class="placeholder col-6"></span>
-    </h5>
-    <p class="card-text placeholder-glow">
+  <div class="card ">
+    <img src="{{streamImage(3)}}" class="card-img-top" style="width: 200px; height: 300px;" alt="cover">
+    <!-- <p class="card-text placeholder-glow">
       <span class="placeholder col-7"></span>
       <span class="placeholder col-4"></span>
       <span class="placeholder col-4"></span>
       <span class="placeholder col-6"></span>
       <span class="placeholder col-8"></span>
-    </p>
-    <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+    </p> -->
+    <div class="card-body">
+      <h5 class="card-title">{{ book.title}}</h5>
+      <p class="card-text">{{book.author}}</p>
+      <p class="card-text">{{book.pages}}</p>
+      <a href="#" class="btn btn-primary">Add to Cart</a>
+      <br>
+      <br>
+      <a href="#" class="btn btn-primary">More Details</a>
+    </div>
   </div>
-</div>
-</li>
 
+
+</div>

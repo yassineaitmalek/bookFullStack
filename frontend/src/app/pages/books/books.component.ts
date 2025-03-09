@@ -2,10 +2,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { BookService } from '../../shared/api/books/api/book.service';
+
 import { ToastService } from '../../services/toast.service';
 import { Book } from '../../shared/api/books/model/book';
 import { BookComponent } from './book/book.component';
+import { ApiDataResponsePageBook, BookControllerService } from '../../shared/api/books';
 
 @Component({
   standalone: true,
@@ -16,7 +17,7 @@ import { BookComponent } from './book/book.component';
 })
 export class BooksComponent implements OnInit {
   constructor(
-    private booksService: BookService,
+    private booksService: BookControllerService,
     private toastService: ToastService
   ) { }
 
@@ -24,27 +25,25 @@ export class BooksComponent implements OnInit {
 
   page: number = 0;
 
-  books: Book[] = [];
+  books: Book[] = [
+  ];
 
 
 
   ngOnInit(): void {
     this.toastService.onSucess('heeey', '');
     this.booksService
-      .search(
-        {},
-        {
-          page: this.page,
-          size: this.size,
-
-        }
-      )
-      .pipe()
+      .search({}, { page: this.page, size: this.size, })
       .subscribe(
         (res) => {
-          this.books = res?.data?.content || [];
+          console.log("res " + res);
 
-          this.page++;
+          console.log("data " + res.data)
+          res.data?.content?.forEach(e => console.log(e))
+
+
+
+          // // this.page++;
         },
         (err) => {
           console.error(err);

@@ -1,5 +1,5 @@
-export * from './attachement.service';
-import { AttachementService } from './attachement.service';
-export * from './book.service';
-import { BookService } from './book.service';
-export const APIS = [AttachementService, BookService];
+export * from './attachementController.service';
+import { AttachementControllerService } from './attachementController.service';
+export * from './bookController.service';
+import { BookControllerService } from './bookController.service';
+export const APIS = [AttachementControllerService, BookControllerService];

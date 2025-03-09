@@ -15,7 +15,7 @@ import { FooterComponent } from './pages/footer/footer.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule, // Add this line
-    ApiModule.forRoot(() => new Configuration({ basePath: 'http://localhost:8080/book-service' })),
+    ApiModule.forRoot(() => new Configuration({ basePath: '/book-service' })),
 
     // ApiModule.forRoot({ rootUrl: '/abb-api-agios' }),
     CommonModule,

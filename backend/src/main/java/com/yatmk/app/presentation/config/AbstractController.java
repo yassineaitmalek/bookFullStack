@@ -3,6 +3,7 @@ package com.yatmk.app.presentation.config;
 import java.util.function.Supplier;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -18,6 +19,7 @@ public interface AbstractController {
   public default <T> ResponseEntity<ApiDataResponse<T>> ok(Supplier<T> supplier) {
     return ResponseEntity
         .status(HttpStatus.OK)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ApiDataResponse
             .<T>builder()
             .data(supplier.get())
@@ -29,6 +31,7 @@ public interface AbstractController {
   public default <T> ResponseEntity<ApiDataResponse<T>> create(Supplier<T> supplier) {
     return ResponseEntity
         .status(HttpStatus.CREATED)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ApiDataResponse
             .<T>builder()
             .data(supplier.get())
@@ -41,6 +44,7 @@ public interface AbstractController {
     runnable.run();
     return ResponseEntity
         .status(HttpStatus.NO_CONTENT)
+        .contentType(MediaType.APPLICATION_JSON)
         .build();
   }
 
@@ -48,6 +52,7 @@ public interface AbstractController {
     runnable.run();
     return ResponseEntity
         .status(HttpStatus.ACCEPTED)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ApiDataResponse.<T>builder()
             .data(supplier.get())
             .httpStatus(HttpStatus.ACCEPTED.value())
@@ -57,7 +62,7 @@ public interface AbstractController {
 
   public default ResponseEntity<byte[]> download(ApiDownloadInput apiDownloadInput) {
     return ResponseEntity.status(HttpStatus.OK)
-        .header("Content-Type", "application/octet-stream")
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .header("Content-Disposition", "attachment; filename=" + apiDownloadInput.getValidName())
         .header("Content-Length", String.valueOf(apiDownloadInput.getBytes().length))
         .body(apiDownloadInput.getBytes());
@@ -66,7 +71,7 @@ public interface AbstractController {
 
   public default ResponseEntity<StreamingResponseBody> downloadLarge(ApiDownloadInputLarge apiDownloadInput) {
     return ResponseEntity.status(HttpStatus.OK)
-        .header("Content-Type", "application/octet-stream")
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .header("Content-Disposition", "attachment; filename=" + apiDownloadInput.getValidName())
         .header("Content-Length", String.valueOf(apiDownloadInput.getSize()))
         .body(apiDownloadInput.getStreamingResponseBody());
@@ -86,7 +91,9 @@ public interface AbstractController {
 
   public default ResponseEntity<ServerSideExceptionResponse> internalException(Exception exception,
       WebRequest request) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ServerSideExceptionResponse.builder()
             .message(exception.getMessage())
             .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -97,7 +104,9 @@ public interface AbstractController {
   }
 
   public default ResponseEntity<ServerSideExceptionResponse> badRequest(Exception exception, WebRequest request) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ServerSideExceptionResponse
             .builder().message(exception.getMessage())
             .httpStatus(HttpStatus.BAD_REQUEST.value())
@@ -108,7 +117,9 @@ public interface AbstractController {
   }
 
   public default ResponseEntity<ServerSideExceptionResponse> notFound(Exception exception, WebRequest request) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ServerSideExceptionResponse
             .builder().message(exception.getMessage())
             .httpStatus(HttpStatus.NOT_FOUND.value())
@@ -119,7 +130,9 @@ public interface AbstractController {
   }
 
   public default ResponseEntity<ServerSideExceptionResponse> tooManyRequests(Exception exception, WebRequest request) {
-    return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+    return ResponseEntity
+        .status(HttpStatus.TOO_MANY_REQUESTS)
+        .contentType(MediaType.APPLICATION_JSON)
         .body(ServerSideExceptionResponse
             .builder().message(exception.getMessage())
             .httpStatus(HttpStatus.TOO_MANY_REQUESTS.value())

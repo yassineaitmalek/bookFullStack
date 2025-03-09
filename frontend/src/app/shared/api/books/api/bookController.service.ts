@@ -9,13 +9,12 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional } from '@angular/core';
-import {
-    HttpClient, HttpHeaders, HttpParams,
-    HttpResponse, HttpEvent, HttpParameterCodec, HttpContext
-} from '@angular/common/http';
-import { CustomHttpParameterCodec } from '../encoder';
-import { Observable } from 'rxjs';
+import { Inject, Injectable, Optional }                      from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams,
+         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
+        }       from '@angular/common/http';
+import { CustomHttpParameterCodec }                          from '../encoder';
+import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
 import { ApiDataResponseBook } from '../model/apiDataResponseBook';
@@ -29,22 +28,22 @@ import { BookUpdateDTO } from '../model/bookUpdateDTO';
 import { Pageable } from '../model/pageable';
 
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
-import { Configuration } from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
+import { Configuration }                                     from '../configuration';
 
 
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class BookService {
+export class BookControllerService {
 
     protected basePath = 'http://localhost:8080/book-service';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration: Configuration) {
+    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
         if (configuration) {
             this.configuration = configuration;
         }
@@ -93,15 +92,15 @@ export class BookService {
 
         if (typeof value === "object") {
             if (Array.isArray(value)) {
-                (value as any[]).forEach(elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
                 if (key != null) {
                     httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
                 } else {
-                    throw Error("key may not be null if value is Date");
+                   throw Error("key may not be null if value is Date");
                 }
             } else {
-                Object.keys(value).forEach(k => httpParams = this.addToHttpParamsRecursive(
+                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
                     httpParams, value[k], key != null ? `${key}.${k}` : k));
             }
         } else if (key != null) {
@@ -117,10 +116,10 @@ export class BookService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public _delete(id: number, observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean }): Observable<any>;
-    public _delete(id: number, observe?: 'response', reportProgress?: boolean, options?: { httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean }): Observable<HttpResponse<any>>;
-    public _delete(id: number, observe?: 'events', reportProgress?: boolean, options?: { httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean }): Observable<HttpEvent<any>>;
-    public _delete(id: number, observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean }): Observable<any> {
+    public _delete(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public _delete(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public _delete(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public _delete(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling _delete.');
         }
@@ -167,7 +166,7 @@ export class BookService {
             }
         }
 
-        let localVarPath = `/api/books/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64" })}`;
+        let localVarPath = `/api/books/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -194,10 +193,10 @@ export class BookService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<ApiDataResponseBook>;
-    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe?: 'response', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<HttpResponse<ApiDataResponseBook>>;
-    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe?: 'events', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<HttpEvent<ApiDataResponseBook>>;
-    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<any> {
+    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<ApiDataResponseBook>;
+    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ApiDataResponseBook>>;
+    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ApiDataResponseBook>>;
+    public create(coverFile: Blob, contentFile: Blob, author?: string, country?: string, language?: string, link?: string, pages?: number, title?: string, year?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (coverFile === null || coverFile === undefined) {
             throw new Error('Required parameter coverFile was null or undefined when calling create.');
         }
@@ -255,7 +254,7 @@ export class BookService {
         if (localVarUseForm) {
             localVarFormParams = new FormData();
         } else {
-            localVarFormParams = new HttpParams({ encoder: this.encoder });
+            localVarFormParams = new HttpParams({encoder: this.encoder});
         }
 
         if (author !== undefined) {
@@ -318,10 +317,10 @@ export class BookService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<ApiDataResponsePageBook>;
-    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe?: 'response', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<HttpResponse<ApiDataResponsePageBook>>;
-    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe?: 'events', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<HttpEvent<ApiDataResponsePageBook>>;
-    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<any> {
+    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<ApiDataResponsePageBook>;
+    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ApiDataResponsePageBook>>;
+    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ApiDataResponsePageBook>>;
+    public search(bookSearchDTO: BookSearchDTO, pageable: Pageable, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (bookSearchDTO === null || bookSearchDTO === undefined) {
             throw new Error('Required parameter bookSearchDTO was null or undefined when calling search.');
         }
@@ -329,14 +328,14 @@ export class BookService {
             throw new Error('Required parameter pageable was null or undefined when calling search.');
         }
 
-        let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (bookSearchDTO !== undefined && bookSearchDTO !== null) {
-            localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                <any>bookSearchDTO, 'bookSearchDTO');
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>bookSearchDTO, 'bookSearchDTO');
         }
         if (pageable !== undefined && pageable !== null) {
-            localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-                <any>pageable, 'pageable');
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pageable, 'pageable');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -403,10 +402,10 @@ export class BookService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<ApiDataResponseBook>;
-    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe?: 'response', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<HttpResponse<ApiDataResponseBook>>;
-    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe?: 'events', reportProgress?: boolean, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<HttpEvent<ApiDataResponseBook>>;
-    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean }): Observable<any> {
+    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<ApiDataResponseBook>;
+    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ApiDataResponseBook>>;
+    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ApiDataResponseBook>>;
+    public update(id: number, bookUpdateDTO: BookUpdateDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling update.');
         }
@@ -466,7 +465,7 @@ export class BookService {
             }
         }
 
-        let localVarPath = `/api/books/${this.configuration.encodeParam({ name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64" })}`;
+        let localVarPath = `/api/books/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
         return this.httpClient.request<ApiDataResponseBook>('patch', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
